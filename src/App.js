@@ -1,19 +1,21 @@
 import React from 'react';
 import './App.css';
+import uniqid from 'uniqid';
+
+import Board from './lib/Board';
 
 function App() {
 
-  let board = new Array(8).fill(new Array(8).fill(''));
-
-  console.log(board);
-
+  let board = new Board();
+  board.fillMatrix();
+  
   return (
     <div className="App">
       <div className="box">
-        {board.map((row) => {
+        {board.matrix.map((row) => {
           return (
             row.map((square) => {
-              return (<div className="square">{square}</div>)
+              return (<div className="square" key={uniqid()}>{ (square.isBomb) ? "bomb" : ""}</div>)
             })
           )
         })}
