@@ -60,7 +60,7 @@ class Board {
         let middleRow = [new Point(i, j - 1), new Point(i, j + 1)];
         let topRow = [new Point(i - 1, j - 1), new Point(i - 1, j), new Point(i - 1, j + 1)];
 
-        let spacesToCheck = [... bottomRow, ... middleRow, ... topRow];
+        let spacesToCheck = [...bottomRow, ...middleRow, ...topRow];
 
         let numOfBombsTouching = 0;
 
@@ -72,6 +72,24 @@ class Board {
             }
         }
         return numOfBombsTouching; 
+    }
+
+    floodFillReveal(x, y) {
+        if(!(x < this.rows && x >= 0 && y < this.cols && y >= 0)) return;
+        // https://en.wikipedia.org/wiki/Flood_fill
+        const target = 0;
+        const square = this.matrix[x][y];
+        if(square.visible) return;
+        if(square.text != 0 || square.isBomb) return;
+        square.visible = true;
+        let squareDOM = document.getElementById(`${x}${y}`);
+       // squareDOM.textContent = square.text;    
+        squareDOM.style.backgroundColor = 'lightblue';
+
+        this.floodFillReveal(x, y+1); // South
+        this.floodFillReveal(x, y-1); // North
+        this.floodFillReveal(x-1, y); // West
+        this.floodFillReveal(x+1, y); // East
     }
 }
 
