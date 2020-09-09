@@ -40,7 +40,7 @@ class Board {
             else {
                 bombLocations.add(xy_str);
                 this.matrix[x][y].isBomb = true;
-                this.matrix[x][y].text = 'Bomb!';
+                this.matrix[x][y].text = '💣';
             } 
         }
     }
@@ -77,15 +77,14 @@ class Board {
     floodFillReveal(x, y) {
         if(!(x < this.rows && x >= 0 && y < this.cols && y >= 0)) return;
         // https://en.wikipedia.org/wiki/Flood_fill
-        const target = 0;
         const square = this.matrix[x][y];
         if(square.visible) return;
-        if(square.text != 0 || square.isBomb) return;
+        if(square.isBomb) return;
         square.visible = true;
         let squareDOM = document.getElementById(`${x}${y}`);
-       // squareDOM.textContent = square.text;    
+        squareDOM.textContent = (square.text === 0) ? "" : square.text;    
         squareDOM.style.backgroundColor = 'lightblue';
-
+        if(square.text !== 0) return;
         this.floodFillReveal(x, y+1); // South
         this.floodFillReveal(x, y-1); // North
         this.floodFillReveal(x-1, y); // West

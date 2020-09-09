@@ -18,6 +18,8 @@ body {
   width: 5rem;
   height: 5rem;
   border: 1px solid black;
+  text-align:center;
+  font-size: 50px;
 }
 
 .square:hover {

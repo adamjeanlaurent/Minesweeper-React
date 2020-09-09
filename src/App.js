@@ -17,19 +17,36 @@ function App() {
 
     if(!board.matrix[x][y].isVisible) {
       board.matrix[x][y].isVisible = true;
-      if(board.matrix[x][y].text != 0) {
+      if(board.matrix[x][y].isBomb) {
         e.target.textContent = text;
         e.target.style.backgroundColor = 'lightblue';
       }
       else {
         board.floodFillReveal(x,y);
       }
-
-    // use x and y to check neighboring squares
-    // seems like first click reveals a bunch, but next ones only reveal what you clicked on ?
     }
   }
-  
+
+    document.addEventListener('contextmenu', (e) =>  {
+      e.preventDefault();
+      if(e.target.classList !== 0) {
+        if(e.target.classList.contains('square')) {
+          const x = parseInt(e.target.getAttribute('x'));
+          const y = parseInt(e.target.getAttribute('y'));
+
+          if(!board.matrix[x][y].visible) {
+            if(e.target.textContent === '🚩') {
+              e.target.textContent = '';
+            }
+            else {
+              e.target.textContent = '🚩';
+            }
+          }
+
+        }
+      }
+    })  
+
   return (
     <div className="App">
       <div className="box">
