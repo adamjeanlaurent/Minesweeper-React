@@ -3,6 +3,7 @@ import './App.css';
 import uniqid from 'uniqid';
 
 import Board from './lib/Board';
+import { logRoles } from '@testing-library/react';
 
 function App() {
   
@@ -22,6 +23,7 @@ function App() {
       if(squareThatWasClicked.isBomb) {
         e.target.textContent = text;
         e.target.style.backgroundColor = 'lightblue';
+        board.lose();
       }
       else {
         board.floodFillReveal(x,y);

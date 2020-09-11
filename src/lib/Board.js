@@ -102,9 +102,18 @@ class Board {
         this.floodFillReveal(x-1, y); // West
         this.floodFillReveal(x+1, y); // East
     }
-
+    
     lose() {
-        
+        for(let i = 0; i < this.rows; i++) {
+            for(let j = 0; j< this.cols; j++) { 
+                let square = this.matrix[i][j];
+                if(!square.visible) {
+                    let squareDOM = document.getElementById('' + i + j);
+                    squareDOM.textContent = square.text;
+                    squareDOM.style.backgroundColor = 'lightblue';
+                }
+            }
+        }
     }
 }
 
