@@ -5,7 +5,7 @@ import uniqid from 'uniqid';
 import Board from './lib/Board';
 
 function App() {
-
+  
   // setup game board
   let board = new Board();
   board.setup();
@@ -15,9 +15,11 @@ function App() {
     const y = parseInt(e.target.getAttribute('y'));
     const text = e.target.getAttribute('text');
 
-    if(!board.matrix[x][y].isVisible) {
-      board.matrix[x][y].isVisible = true;
-      if(board.matrix[x][y].isBomb) {
+    let squareThatWasClicked = board.matrix[x][y];
+
+    if(!squareThatWasClicked.isVisible) {
+      squareThatWasClicked.isVisible = true;
+      if(squareThatWasClicked.isBomb) {
         e.target.textContent = text;
         e.target.style.backgroundColor = 'lightblue';
       }
@@ -33,7 +35,7 @@ function App() {
         if(e.target.classList.contains('square')) {
           const x = parseInt(e.target.getAttribute('x'));
           const y = parseInt(e.target.getAttribute('y'));
-
+          
           if(!board.matrix[x][y].visible) {
             if(e.target.textContent === '🚩') {
               e.target.textContent = '';
@@ -42,11 +44,10 @@ function App() {
               e.target.textContent = '🚩';
             }
           }
-
         }
       }
-    })  
-
+    });
+    
   return (
     <div className="App">
       <div className="box">

@@ -16,6 +16,7 @@ class Board {
         this.assignNumBombsTouching();
     }
 
+    // intial initialization, defaults every square to empty
     fillMatrix() {
         for(let i = 0; i < this.rows; i++) {
             this.matrix.push(new Array(8).fill(''));
@@ -25,6 +26,7 @@ class Board {
         }
     }
 
+    // places 7 random bombs on the board
     setBombLocations() {
         let bombLocations = new Set();
 
@@ -45,6 +47,7 @@ class Board {
         }
     }
 
+    // assigns bomb neighbor count to non-bomb spaces
     assignNumBombsTouching() {
         for(let i = 0; i < this.rows; i++) {
             for(let j = 0; j < this.cols; j++) {
@@ -55,6 +58,7 @@ class Board {
         }
     }
 
+    // return bomb neighbor count for a given square
     findNumBombsTouching(i,j) {
         let bottomRow = [new Point(i + 1, j - 1), new Point(i + 1, j), new Point(i + 1, j + 1)];
         let middleRow = [new Point(i, j - 1), new Point(i, j + 1)];
@@ -74,21 +78,32 @@ class Board {
         return numOfBombsTouching; 
     }
 
+    // reveals neighboring empty spaces and non-bomb spaces
     floodFillReveal(x, y) {
         if(!(x < this.rows && x >= 0 && y < this.cols && y >= 0)) return;
+        
         // https://en.wikipedia.org/wiki/Flood_fill
         const square = this.matrix[x][y];
+
         if(square.visible) return;
         if(square.isBomb) return;
+
         square.visible = true;
+
         let squareDOM = document.getElementById(`${x}${y}`);
         squareDOM.textContent = (square.text === 0) ? "" : square.text;    
         squareDOM.style.backgroundColor = 'lightblue';
+
         if(square.text !== 0) return;
+
         this.floodFillReveal(x, y+1); // South
         this.floodFillReveal(x, y-1); // North
         this.floodFillReveal(x-1, y); // West
         this.floodFillReveal(x+1, y); // East
+    }
+
+    lose() {
+        
     }
 }
 
