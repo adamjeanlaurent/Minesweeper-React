@@ -30,6 +30,7 @@ function App() {
   }
 
     document.addEventListener('contextmenu', (e) =>  {
+      const flag = '🚩';
       e.preventDefault();
       if(e.target.classList !== 0) {
         if(e.target.classList.contains('square')) {
@@ -37,11 +38,11 @@ function App() {
           const y = parseInt(e.target.getAttribute('y'));
           
           if(!board.matrix[x][y].visible) {
-            if(e.target.textContent === '🚩') {
+            if(e.target.textContent === flag) {
               e.target.textContent = '';
             }
             else {
-              e.target.textContent = '🚩';
+              e.target.textContent = flag;
             }
           }
         }

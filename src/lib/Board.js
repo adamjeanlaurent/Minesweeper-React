@@ -29,6 +29,7 @@ class Board {
     // places 7 random bombs on the board
     setBombLocations() {
         let bombLocations = new Set();
+        const bomb = '💣';
 
         while (bombLocations.size < this.numOfBombs) {
             let x = random.int(0, 7);
@@ -38,11 +39,11 @@ class Board {
             if (bombLocations.has(xy_str)) {
                 continue;
             }
-
+                
             else {
                 bombLocations.add(xy_str);
                 this.matrix[x][y].isBomb = true;
-                this.matrix[x][y].text = '💣';
+                this.matrix[x][y].text = bomb;
             } 
         }
     }
