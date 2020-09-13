@@ -6,6 +6,7 @@ import Board from "./lib/Board";
 import { logRoles } from "@testing-library/react";
 
 function App() {
+    const [game, resetGame] = useState(1);
     // setup game board
     let board = new Board();
     board.setup();
@@ -44,6 +45,18 @@ function App() {
                 }
             }
         }
+        document.getElementById('restart').textContent = 'You Lose! Restarting In 5 Seconds ⏰';
+        setTimeout(() => {
+            reset();
+            document.getElementById('restart').textContent = '';
+        }, 5000);
+    }
+
+    function reset() {
+        board = new Board();
+        board.setup();
+        resetGame(game + 1);
+        mouseControlsEnabled = true;
     }
 
     document.addEventListener("contextmenu", (e) => {
@@ -67,6 +80,7 @@ function App() {
     
     return (
         <div className="App">
+            <h3 id ="restart"></h3>
             <div className="box">
                 {board.matrix.map((row, xIdx) => {
                     return row.map((square, yIdx) => {

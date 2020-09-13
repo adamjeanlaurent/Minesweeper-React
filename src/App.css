@@ -25,3 +25,8 @@ body {
 .square:hover {
   background-color: lightgray;
 }
+
+#restart {
+  text-align: center;
+  font-size: 50px;
+}
