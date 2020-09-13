@@ -8,10 +8,10 @@ import { logRoles } from "@testing-library/react";
 function App() {
     const [game, resetGame] = useState(1);
     // setup game board
-    let board = new Board();
+    let board = new Board(); 
     board.setup();
 
-    let mouseControlsEnabled = true;
+    let mouseControlsEnabled = true; /* used to disable clicks when board is resetting */
 
     function squareClicked(e) {
       if(!mouseControlsEnabled) return;
@@ -21,20 +21,26 @@ function App() {
 
         let squareThatWasClicked = board.matrix[x][y];
 
+        // if square is not visbile, show it
         if (!squareThatWasClicked.isVisible) {
             squareThatWasClicked.isVisible = true;
+            // if clicked a bomb, lose
             if (squareThatWasClicked.isBomb) {
                 e.target.textContent = text;
                 e.target.style.backgroundColor = "lightblue";
                 lose();
-            } else {
+            } 
+            // if clicked a non-bomb reveal
+            else {
                 board.floodFillReveal(x, y);
             }
         }
     }
 
     function lose() {
-        mouseControlsEnabled = false;
+        // stop user from clicking after loss
+        mouseControlsEnabled = false; 
+        // show all not visible squares
         for (let i = 0; i < board.rows; i++) {
             for (let j = 0; j < board.cols; j++) {
                 let square = board.matrix[i][j];
@@ -45,7 +51,11 @@ function App() {
                 }
             }
         }
+
+        // show restart message
         document.getElementById('restart').textContent = 'You Lose! Restarting In 5 Seconds ⏰';
+
+        // in 5 seconds reset board
         setTimeout(() => {
             reset();
             document.getElementById('restart').textContent = '';
@@ -59,6 +69,7 @@ function App() {
         mouseControlsEnabled = true;
     }
 
+    // right-click to display flag
     document.addEventListener("contextmenu", (e) => {
         const flag = "🚩";
         e.preventDefault();
