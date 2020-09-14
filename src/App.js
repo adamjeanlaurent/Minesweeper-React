@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import "./App.css";
 import uniqid from "uniqid";
 
 import Board from "./lib/Board";
-import { logRoles } from "@testing-library/react";
 
 function App() {
-    const [game, resetGame] = useState(1);
     // setup game board
     let board = new Board(); 
     board.setup();
@@ -65,19 +63,19 @@ function App() {
     function reset() {
         board = new Board();
         board.setup();
-        resetGame(game + 1);
+        hideSquares();
         mouseControlsEnabled = true;
     }
 
     // right-click to display flag
     document.addEventListener("contextmenu", (e) => {
+        if(!mouseControlsEnabled) return;
         const flag = "🚩";
         e.preventDefault();
-        if (e.target.classList !== 0) {
+        if (e.target.classList.length !== 0) {
             if (e.target.classList.contains("square")) {
                 const x = parseInt(e.target.getAttribute("x"));
                 const y = parseInt(e.target.getAttribute("y"));
-
                 if (!board.matrix[x][y].visible) {
                     if (e.target.textContent === flag) {
                         e.target.textContent = "";
@@ -88,6 +86,15 @@ function App() {
             }
         }
     });
+
+    function hideSquares() {
+        let squares = document.getElementsByClassName('square');
+
+        for(let square of squares) {
+            square.textContent = "";
+            square.style.backgroundColor = '';
+        }
+    }
     
     return (
         <div className="App">
